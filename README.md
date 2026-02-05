@@ -91,7 +91,7 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for detailed architecture documentation.
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/keep2notion.git
+   git clone https://github.com/cochilocovt/keep2notion.git
    cd keep2notion
    ```
 
