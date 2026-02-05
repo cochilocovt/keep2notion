@@ -1,0 +1,86 @@
+/* Custom styles for Google Keep to Notion Sync Admin Interface */
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container-fluid {
+    flex: 1;
+}
+
+.footer {
+    margin-top: auto;
+}
+
+/* Dashboard cards */
+.dashboard-card {
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    text-align: center;
+    padding: 20px;
+}
+
+.stat-card h2 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.stat-card p {
+    font-size: 1.2rem;
+    color: #6c757d;
+}
+
+/* Status badges */
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.status-queued {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.status-running {
+    background-color: #17a2b8;
+    color: #fff;
+}
+
+.status-completed {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.status-failed {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+/* Table styles */
+.table-hover tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Form styles */
+.form-section {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+/* Button styles */
+.btn-sync {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-sync:hover {
+    background-color: #0056b3;
+    color: white;
+}

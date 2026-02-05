@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: keep-notion-sync-config
+  namespace: keep-notion-sync
+data:
+  # Database configuration (connection details from RDS)
+  DB_HOST: "keep-notion-sync-db.cluster-xxxxx.us-east-1.rds.amazonaws.com"
+  DB_PORT: "5432"
+  DB_NAME: "keep_notion_sync"
+  
+  # Service URLs (internal cluster communication)
+  KEEP_EXTRACTOR_URL: "http://keep-extractor-service:8001"
+  NOTION_WRITER_URL: "http://notion-writer-service:8002"
+  SYNC_SERVICE_URL: "http://sync-service:8003"
+  API_GATEWAY_URL: "http://api-gateway-service:8000"
+  
+  # AWS Configuration
+  AWS_REGION: "us-east-1"
+  S3_BUCKET_NAME: "keep-notion-sync-images"
+  
+  # Application Configuration
+  LOG_LEVEL: "INFO"
+  ENVIRONMENT: "production"
+  
+  # Rate Limiting
+  NOTION_RATE_LIMIT_REQUESTS: "3"
+  NOTION_RATE_LIMIT_PERIOD: "1"
+  
+  # Retry Configuration
+  MAX_RETRIES: "3"
+  RETRY_BACKOFF_FACTOR: "2"

@@ -1,0 +1,122 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-interface
+  namespace: keep-notion-sync
+  labels:
+    app: admin-interface
+    component: frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: admin-interface
+  template:
+    metadata:
+      labels:
+        app: admin-interface
+        component: frontend
+    spec:
+      serviceAccountName: keep-notion-sync-sa
+      containers:
+      - name: admin-interface
+        image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/admin-interface:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        env:
+        - name: PORT
+          value: "8080"
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: keep-notion-sync-config
+              key: DB_HOST
+        - name: DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: keep-notion-sync-config
+              key: DB_PORT
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: keep-notion-sync-config
+              key: DB_NAME
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: password
+        - name: SYNC_SERVICE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: keep-notion-sync-config
+              key: SYNC_SERVICE_URL
+        - name: ENCRYPTION_KEY
+          valueFrom:
+            secretKeyRef:
+              name: encryption-key
+              key: key
+        - name: DJANGO_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: django-secret
+              key: secret-key
+        - name: DJANGO_ALLOWED_HOSTS
+          value: "*"
+        - name: DJANGO_DEBUG
+          value: "False"
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: keep-notion-sync-config
+              key: LOG_LEVEL
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /admin/
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /admin/
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: admin-interface-service
+  namespace: keep-notion-sync
+  labels:
+    app: admin-interface
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: admin-interface

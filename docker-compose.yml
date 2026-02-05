@@ -1,0 +1,131 @@
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: keep-notion-postgres
+    environment:
+      POSTGRES_DB: keep_notion_sync
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - keep-notion-network
+
+  # API Gateway Service
+  api_gateway:
+    build:
+      context: .
+      dockerfile: services/api_gateway/Dockerfile
+    container_name: keep-notion-api-gateway
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/keep_notion_sync
+      - SYNC_SERVICE_URL=http://sync_service:8005
+      - PORT=8001
+    ports:
+      - "8001:8001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - keep-notion-network
+    env_file:
+      - .env
+
+  # Admin Interface Service
+  admin_interface:
+    build:
+      context: .
+      dockerfile: services/admin_interface/Dockerfile
+    container_name: keep-notion-admin
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/keep_notion_sync
+      - SYNC_SERVICE_URL=http://sync_service:8005
+      - PORT=8000
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - keep-notion-network
+    env_file:
+      - .env
+
+  # Sync Service
+  sync_service:
+    build:
+      context: .
+      dockerfile: services/sync_service/Dockerfile
+    container_name: keep-notion-sync-service
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/keep_notion_sync
+      - KEEP_EXTRACTOR_URL=http://keep_extractor:8003
+      - NOTION_WRITER_URL=http://notion_writer:8004
+      - SYNC_SERVICE_PORT=8005
+      - AWS_ENCRYPTION_KEY=${AWS_ENCRYPTION_KEY}
+      - ENABLE_NOTIFICATIONS=${ENABLE_NOTIFICATIONS:-false}
+      - NOTIFICATION_WEBHOOK_URL=${NOTIFICATION_WEBHOOK_URL}
+    ports:
+      - "8005:8005"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - keep-notion-network
+    env_file:
+      - .env
+
+  # Keep Extractor Service
+  keep_extractor:
+    build:
+      context: .
+      dockerfile: services/keep_extractor/Dockerfile
+    container_name: keep-notion-keep-extractor
+    environment:
+      - AWS_REGION=${AWS_REGION}
+      - AWS_S3_BUCKET=${AWS_S3_BUCKET}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - PORT=8003
+    ports:
+      - "8003:8003"
+    networks:
+      - keep-notion-network
+    env_file:
+      - .env
+
+  # Notion Writer Service
+  notion_writer:
+    build:
+      context: .
+      dockerfile: services/notion_writer/Dockerfile
+    container_name: keep-notion-notion-writer
+    environment:
+      - AWS_REGION=${AWS_REGION}
+      - AWS_S3_BUCKET=${AWS_S3_BUCKET}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - PORT=8004
+    ports:
+      - "8004:8004"
+    networks:
+      - keep-notion-network
+    env_file:
+      - .env
+
+volumes:
+  postgres_data:
+
+networks:
+  keep-notion-network:
+    driver: bridge
