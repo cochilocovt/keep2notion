@@ -23,6 +23,20 @@
 
 ---
 
+## 📸 Screenshots
+
+### Manual Sync Trigger
+Easily trigger synchronization jobs from the admin interface with options for full or incremental sync.
+
+![Manual Sync Trigger](docs/images/manual-sync-trigger.png)
+
+### Sync Job Details
+Monitor sync progress in real-time with detailed logs, success rates, and comprehensive job information.
+
+![Sync Job Details](docs/images/sync-job-details.png)
+
+---
+
 ## 🏗️ Architecture
 
 ```
