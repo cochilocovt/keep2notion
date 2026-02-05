@@ -1,4 +1,4 @@
-# Keep2Notion 📝➡️📓
+# Keep2Notion
 
 > Automatically sync your Google Keep notes to Notion with images, labels, and full content preservation.
 
@@ -9,7 +9,7 @@
 
 ---
 
-## ✨ Features
+##  Features
 
 - 🔄 **Automatic Sync**: Keep your notes synchronized between Google Keep and Notion
 - 🖼️ **Image Support**: Automatically uploads images to S3 and embeds them in Notion
@@ -23,7 +23,7 @@
 
 ---
 
-## 📸 Screenshots
+##  Screenshots
 
 ### Manual Sync Trigger
 Easily trigger synchronization jobs from the admin interface with options for full or incremental sync.
@@ -35,9 +35,14 @@ Monitor sync progress in real-time with detailed logs, success rates, and compre
 
 ![Sync Job Details](docs/images/sync-job-details.png)
 
+### Notion Database preview
+With gallery view, access and navigate through all of your google keep notes in Notion as you would have in Keep
+
+![Notion sample](docs/images/notion-sample.png)
+
 ---
 
-## 🏗️ Architecture
+##  Architecture
 
 ```
 ┌─────────────┐     ┌──────────────┐     ┌─────────────┐
@@ -74,7 +79,7 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for detailed architecture documentation.
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 
@@ -196,7 +201,7 @@ Google Keep doesn't have an official API. Follow these steps:
 
 ---
 
-## 🐳 Docker Deployment
+##  Docker Deployment
 
 ### Development
 
@@ -214,7 +219,7 @@ See [deployment/README.md](deployment/README.md) for production deployment guide
 
 ---
 
-## 🧪 Testing
+##  Testing
 
 ```bash
 # Install test dependencies
@@ -229,19 +234,19 @@ pytest --cov=. --cov-report=html
 
 ---
 
-## 🤝 Contributing
+##  Contributing
 
 We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 ---
 
-## 📜 License
+##  License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - [gkeepapi](https://github.com/kiwiz/gkeepapi) - Unofficial Google Keep API
 - [notion-sdk-py](https://github.com/ramnes/notion-sdk-py) - Notion Python SDK
