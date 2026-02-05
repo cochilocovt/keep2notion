@@ -8,18 +8,17 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 ---
-
 ##  Features
 
-- 🔄 **Automatic Sync**: Keep your notes synchronized between Google Keep and Notion
-- 🖼️ **Image Support**: Automatically uploads images to S3 and embeds them in Notion
-- 🏷️ **Label Preservation**: Keep labels are synced as Notion tags
-- 📊 **Admin Dashboard**: Web-based interface to monitor and manage syncs
-- 🔐 **Secure**: All credentials encrypted at rest using AES-256
-- 🐳 **Docker Ready**: Easy deployment with Docker Compose
-- ☁️ **Cloud Native**: Kubernetes manifests included for production deployment
-- 📈 **Monitoring**: Built-in health checks and detailed sync logs
-- 🔁 **Incremental Sync**: Only syncs changed notes to save time and resources
+-  **Automatic Sync**: Keep your notes synchronized between Google Keep and Notion
+-  **Image Support**: Automatically uploads images to S3 and embeds them in Notion
+-  **Label Preservation**: Keep labels are synced as Notion tags
+-  **Admin Dashboard**: Web-based interface to monitor and manage syncs
+-  **Secure**: All credentials encrypted at rest using AES-256
+-  **Docker Ready**: Easy deployment with Docker Compose
+-  **Cloud Native**: Kubernetes manifests included for production deployment
+-  **Monitoring**: Built-in health checks and detailed sync logs
+-  **Incremental Sync**: Only syncs changed notes to save time and resources
 
 ---
 
