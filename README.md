@@ -38,7 +38,7 @@ Monitor sync progress in real-time with detailed logs, success rates, and compre
 ### Notion Database preview
 With gallery view, access and navigate through all of your google keep notes in Notion as you would have in Keep
 
-![Notion sample](docs/images/notion-sample.png)
+![Notion sample](docs/images/Notion-sample.png)
 
 ---
 
